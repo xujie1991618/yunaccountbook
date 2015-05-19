@@ -22,12 +22,13 @@ import android.util.Log;
 public class DBTools {
 
 	private static final String DATABASE_NAME = "yunaccountbook.db";
-	private static final String DATABASE_TABLE1 = "accountdbookTables";
+	private static final String DATABASE_TABLE1 = "accountdbooks";
 	private static final String DATABASE_TABLE2 = "labelTypes";
 	private static final int DATABASE_VERSION = 1;
 	
+	//TABLE1
 	private static final String KEY_ID1 = "_id";
-	private static final String KEY_PAY_TYPE = "pay_type";
+	private static final String KEY_TYPE = "type";
 	private static final int TYPE_COLUMN = 1;
 	private static final String KEY_MONEY = "money";
 	private static final int MONEY_COLUMN = 2;
@@ -38,6 +39,7 @@ public class DBTools {
 	private static final String KEY_LABEL_TYPE = "label_type";
 	private static final int LABEL_COLUMN = 5;
 	
+	//TABLE2
 	private static final String KEY_ID2 = "_id";
 	private static final String KEY_LABEL_TYPE_ID = "label_type_id";
 	private static final int LABEL_TYPE_ID_COLUMN = 1;
@@ -76,9 +78,19 @@ public class DBTools {
 		}
 		
 		private static final String DATABASE_CREATE1 = "create table "
-				+ DATABASE_TABLE1 + "(" + KEY_ID1;
-		private static final String DATABASE_CREATE2 = 
-				"";
+				+ DATABASE_TABLE1 + "(" 
+				+ KEY_ID1 + " integer primary key autoincrement, "
+				+ KEY_TYPE + " varchar(10), "
+				+ KEY_MONEY + " float, "
+				+ KEY_CREATE_DATE + " varchar(50), "
+				+ KEY_REMARK + " varchar(255), "
+				+ KEY_LABEL_TYPE + " varchar(10));";
+		
+		private static final String DATABASE_CREATE2 = "create table "
+				+ DATABASE_TABLE2 + "(" 
+				+ KEY_ID2 + " integer primary key autoincrement, "
+				+ KEY_LABEL_TYPE_ID + " varchar(10), "
+				+ KEY_LABEL_TYPE_NAME + " varchar(50));";
 
 		/* (non-Javadoc)
 		 * @see android.database.sqlite.SQLiteOpenHelper#onCreate(android.database.sqlite.SQLiteDatabase)
