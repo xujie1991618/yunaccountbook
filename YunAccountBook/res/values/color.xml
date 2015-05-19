@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blue">#03a9f4</color>
+    
+    <color name="lightblue">#aee4fd</color>
+    
+    <color name="gray">#82858b</color>
+    
+    <color name="lightgray">#DDDDDD</color>
+    
+    <color name="background_tab_pressed">#EEEEEE</color>
+    
+    <color name="white">#FFFFFF</color><!--白色 -->
+
+    <color name="black">#000000</color><!--黑色 -->
+</resources>
