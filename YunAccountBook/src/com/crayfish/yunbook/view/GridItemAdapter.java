@@ -51,7 +51,6 @@ public class GridItemAdapter extends BaseAdapter{
 		return position;
 	}
 
-	@SuppressLint("NewApi")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
@@ -74,13 +73,13 @@ public class GridItemAdapter extends BaseAdapter{
 			item_text.setTextColor(context.getResources().getColor(R.color.blue));
 		}else if(position == gridItems.size()-1){
 			item_image.setImageResource((Integer)gridItems.get(position).get("ItemImage"));
-			item_image.setBackground(context.getResources().getDrawable(R.drawable.bg_add_view));
+			item_image.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_add_view));
 			item_text.setText((String)gridItems.get(position).get("ItemText"));
 			item_text.setTextColor(context.getResources().getColor(R.color.black));
 		}else{
 			item_image.setImageResource((Integer)gridItems.get(position).get("ItemImage"));
 			item_image.setBackgroundColor(Color.TRANSPARENT);
-			item_image.setBackground(context.getResources().getDrawable(R.drawable.bg_view));
+			item_image.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.bg_view));
 			item_text.setText((String)gridItems.get(position).get("ItemText"));
 			item_text.setTextColor(context.getResources().getColor(R.color.black));
 		}
