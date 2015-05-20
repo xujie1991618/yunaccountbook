@@ -33,4 +33,8 @@
     <string name="add_account">添加</string>
     
     <string name="forms">报表</string>
+    <string name="my_date">2015年5月14日</string>
+    <string name="expend_total">支出总额 ¥520</string>
+    <string name="income_total">收入总额 ¥520</string>
+    <string name="record_count">记录数 1</string>
 </resources>
