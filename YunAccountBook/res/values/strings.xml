@@ -37,4 +37,7 @@
     <string name="expend_total">支出总额 ¥520</string>
     <string name="income_total">收入总额 ¥520</string>
     <string name="record_count">记录数 1</string>
+    <string name="account_details">记账详情</string>
+    <string name="editing">编辑</string>
+    <string name="delete">删除</string>
 </resources>

@@ -7,6 +7,7 @@ package com.crayfish.yunbook.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crayfish.yunbook.AccountDetailsActivity;
 import com.crayfish.yunbook.R;
 import com.crayfish.yunbook.view.PinnedSectionListView;
 import com.crayfish.yunbook.view.PinnedSectionListView.PinnedSectionListAdapter;
@@ -251,7 +253,9 @@ public class AccountBookFragment extends Fragment implements OnClickListener{
 				// TODO Auto-generated method stub
 				Item item = (Item) accountbookListview.getAdapter().getItem(position);
 			    if (item != null) {
-			        Toast.makeText(getActivity(), "Item " + position + ": " + item.text1, Toast.LENGTH_SHORT).show();
+			    	Intent i = new Intent(getActivity(),AccountDetailsActivity.class);
+			    	startActivity(i);
+//			        Toast.makeText(getActivity(), "Item " + position + ": " + item.text1, Toast.LENGTH_SHORT).show();
 			    } else {
 			        Toast.makeText(getActivity(), "Item " + position, Toast.LENGTH_SHORT).show();
 			    }

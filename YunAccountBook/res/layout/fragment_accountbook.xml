@@ -7,9 +7,7 @@
     <com.crayfish.yunbook.view.PinnedSectionListView
         android:id="@+id/accountbookList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
-    </com.crayfish.yunbook.view.PinnedSectionListView>
+        android:layout_height="wrap_content"/>
     
     <Button 
         android:id="@+id/form_btn"
