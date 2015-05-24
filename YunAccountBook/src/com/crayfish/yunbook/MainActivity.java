@@ -1,6 +1,12 @@
 package com.crayfish.yunbook;
 
 import android.annotation.SuppressLint;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,14 +19,20 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Toast;
 
+import com.crayfish.yunbook.db.DBTools;
+import com.crayfish.yunbook.domain.AccountBook;
 import com.crayfish.yunbook.fragment.AccountBookFragment;
 import com.crayfish.yunbook.fragment.AccountLableFragment;
 import com.crayfish.yunbook.fragment.MoreFragment;
 import com.crayfish.yunbook.fragment.PagerSlidingTabStrip;
 import com.crayfish.yunbook.fragment.RecordFragment;
+import com.crayfish.yunbook.provider.YunBookContentProvider;
 
-public class MainActivity extends FragmentActivity implements OnClickListener {
+@SuppressLint("NewApi")
+public class MainActivity extends FragmentActivity implements OnClickListener,
+				RecordFragment.OnNewAccountAddedListener, LoaderCallbacks<Cursor> {
 
 	/**记一笔**/
 	private RecordFragment recordFragment;
@@ -45,6 +57,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		setContentView(R.layout.main);
 		initView();
 		initData();
+		
+		// 初始化Loader
+		getLoaderManager().initLoader(0, null, this);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+
+		// 重启Activity后，就重启Loader
+		getLoaderManager().restartLoader(0, null, this);
 	}
 
 	/**
@@ -99,6 +122,45 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void onNewAccountAdded(AccountBook newItem) {
+		ContentResolver cr = getContentResolver();
+		ContentValues values = new ContentValues();
+
+		// 补充值
+		values.put(DBTools.KEY_MONEY, newItem.getMoney());
+		values.put(DBTools.KEY_TYPE, newItem.getType());
+		values.put(DBTools.KEY_CREATE_DATE, newItem.getCreateDate().toString());
+		values.put(DBTools.KEY_LABEL_TYPE, newItem.getLabelType());
+		values.put(DBTools.KEY_REMARK, newItem.getRemark());
+
+		cr.insert(YunBookContentProvider.CONTENT_ACCOUNTBOOK_URI, values);
+		
+		//提示信息添加成功
+		Toast.makeText(this, R.string.toast_added_suc, Toast.LENGTH_LONG).show();
+		
+		getLoaderManager().restartLoader(0, null, this);
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		CursorLoader loader = new CursorLoader(this,
+				YunBookContentProvider.CONTENT_ACCOUNTBOOK_URI, null, null,
+				null, null);
+		return loader;
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
+		System.out.println("Comes here!");
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> arg0) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public class MyPagerAdapter extends FragmentPagerAdapter{

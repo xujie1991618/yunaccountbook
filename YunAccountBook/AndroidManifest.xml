@@ -25,6 +25,19 @@
         </activity>
         
         <activity android:name="com.crayfish.yunbook.AccountDetailsActivity"></activity>
+        
+        <!-- authorities:授权;permission:防止第三方取我的数据 -->
+        <provider
+            android:name=".provider.YunBookContentProvider"
+            android:authorities="com.crayfish.yunbook.accountbookprovider"
+            android:permission="com.crayfish.yunbook.accountbookprovider" >
+        </provider>
+        <!-- <provider
+            android:name=".provider.LabelTypeContentProvider"
+            android:authorities="com.crayfish.yunbook.labeltypeprovider"
+            android:permission="com.crayfish.yunbook.labeltypeprovider" >
+        </provider> -->
+        
     </application>
 
 </manifest>

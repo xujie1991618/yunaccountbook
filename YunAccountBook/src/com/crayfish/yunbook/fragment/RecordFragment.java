@@ -5,11 +5,16 @@
  */
 package com.crayfish.yunbook.fragment;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog;
@@ -25,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -35,6 +41,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.crayfish.yunbook.R;
+import com.crayfish.yunbook.domain.AccountBook;
 import com.crayfish.yunbook.view.GridItemAdapter;
 
 /**
@@ -79,7 +86,33 @@ public class RecordFragment extends Fragment {
 	private GridItemAdapter adapter;
 	/**标签数据集**/
 	private ArrayList<HashMap<String, Object>> gridItems;
+	
+	/**
+	 * 备注
+	 */
+	private EditText remarkEditText = null;
+	
+	/**
+	 * 添加按钮
+	 */
+	private Button addBtn = null;
+	
+	/**
+	 * 接口实例
+	 */
+	private OnNewAccountAddedListener onNewAccountAddedListener = null;
 
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		
+		try{
+			onNewAccountAddedListener = (OnNewAccountAddedListener)activity;
+		}catch(ClassCastException e){
+			System.out.println("RecordFragment" + e.toString());
+		}
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -125,6 +158,9 @@ public class RecordFragment extends Fragment {
 		my_clock_text = (TextView) rootview.findViewById(R.id.my_clock_text);
 		my_clock_text.setText(my_hour + ":" + String.format("%02d", my_minute));
 		label_gridview = (GridView) rootview.findViewById(R.id.label_gridview);
+		
+		remarkEditText = (EditText)rootview.findViewById(R.id.remark_edittext);
+		addBtn = (Button)rootview.findViewById(R.id.add_btn);
 	}
 
 	private void initEvent() {
@@ -283,6 +319,70 @@ public class RecordFragment extends Fragment {
 				adapter.notifyDataSetChanged();
 			}
 		});
+		
+		//按下添加按钮后的操作
+		addBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AccountBook ab = null;
+				
+				//取得所有信息
+				//金额
+				String moneyStr = edittext.getText().toString();
+				
+				//收入、支出
+				String type = null;
+				int income_textview_color = income_textview.getCurrentTextColor();
+//						int expend_textview_color = expend_textview.getCurrentTextColor();
+				
+				//判断哪个被选中
+				if(income_textview_color==-16537100){//收入被选中
+					type = AccountBook.TYPE_INCOME;
+				}else{//支出被选中
+					type = AccountBook.TYPE_EXPEND;
+				}
+				
+				//日期
+				String calendar_text = my_calendar_text.getText().toString();
+				String clock_text = my_clock_text.getText().toString();
+				String date_text = calendar_text + " " + clock_text;
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.CHINA);
+				
+				Date date = null;
+				try {
+					date = df.parse(date_text);
+					
+				} catch (ParseException e) {
+					System.out.println(e.toString());
+				}
+				
+				//标签
+				String labelStr = incomestringlist[adapter.getSelection()];
+				
+				//备注
+				String remarkStr = remarkEditText.getText().toString();
+				
+				ab = new AccountBook(type, Float.parseFloat(moneyStr), date, remarkStr, labelStr);
+				onNewAccountAddedListener.onNewAccountAdded(ab);
+				
+				//添加后，将表单数据复位
+				edittext.setText("");
+				remarkEditText.setText("");
+				
+//						Toast.makeText(getActivity(), remarkStr+"", Toast.LENGTH_LONG).show();
+			}
+		});
+	}
+	
+	/**
+	 * 让主Activity实现该接口，来监听新项的添加与否
+	 * 
+	 * @author huashuncai
+	 * 
+	 */
+	public interface OnNewAccountAddedListener {
+		public void onNewAccountAdded(AccountBook newItem);
 	}
 
 }

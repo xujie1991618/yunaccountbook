@@ -32,6 +32,10 @@
     <string name="remark_hint">输入说明</string>
     <string name="add_account">添加</string>
     
+    <!-- Toast -->
+    <string name="toast_added_suc">添加成功</string>
+    <!-- Toast ends -->
+    
     <string name="forms">报表</string>
     <string name="my_date">2015年5月14日</string>
     <string name="expend_total">支出总额 ¥520</string>

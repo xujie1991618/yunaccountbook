@@ -9,7 +9,6 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -22,29 +21,29 @@ import android.util.Log;
 public class DBTools {
 
 	private static final String DATABASE_NAME = "yunaccountbook.db";
-	private static final String DATABASE_TABLE1 = "accountdbooks";
-	private static final String DATABASE_TABLE2 = "labelTypes";
+	public static final String DATABASE_TABLE1 = "accountdbooks";
+	public static final String DATABASE_TABLE2 = "labelTypes";
 	private static final int DATABASE_VERSION = 1;
 	
 	//TABLE1
-	private static final String KEY_ID1 = "_id";
-	private static final String KEY_TYPE = "type";
-	private static final int TYPE_COLUMN = 1;
-	private static final String KEY_MONEY = "money";
-	private static final int MONEY_COLUMN = 2;
-	private static final String KEY_CREATE_DATE = "create_date";
-	private static final int CREATE_DATE_COLUMN = 3;
-	private static final String KEY_REMARK = "remark";
-	private static final int REMARK_COLUMN = 4;
-	private static final String KEY_LABEL_TYPE = "label_type";
-	private static final int LABEL_COLUMN = 5;
+	public static final String KEY_ID1 = "_id";
+	public static final String KEY_TYPE = "type";
+	public static final int TYPE_COLUMN = 1;
+	public static final String KEY_MONEY = "money";
+	public static final int MONEY_COLUMN = 2;
+	public static final String KEY_CREATE_DATE = "create_date";
+	public static final int CREATE_DATE_COLUMN = 3;
+	public static final String KEY_REMARK = "remark";
+	public static final int REMARK_COLUMN = 4;
+	public static final String KEY_LABEL_TYPE = "label_type";
+	public static final int LABEL_COLUMN = 5;
 	
 	//TABLE2
-	private static final String KEY_ID2 = "_id";
-	private static final String KEY_LABEL_TYPE_ID = "label_type_id";
-	private static final int LABEL_TYPE_ID_COLUMN = 1;
-	private static final String KEY_LABEL_TYPE_NAME = "label_type_name";
-	private static final int LABEL_TYPE_NAME_COLUMN = 2;
+	public static final String KEY_ID2 = "_id";
+	public static final String KEY_LABEL_TYPE_ID = "label_type_id";
+	public static final int LABEL_TYPE_ID_COLUMN = 1;
+	public static final String KEY_LABEL_TYPE_NAME = "label_type_name";
+	public static final int LABEL_TYPE_NAME_COLUMN = 2;
 	
 	private DBOpenHelper dbHelper;
 	private Context context = null;
@@ -52,7 +51,7 @@ public class DBTools {
 	
 	public DBTools(Context _context){
 		this.context = _context;
-		dbHelper = new DBOpenHelper(_context, DATABASE_NAME, null, DATABASE_VERSION);
+		dbHelper = new DBOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 	
 	public void close(){
@@ -63,7 +62,11 @@ public class DBTools {
 		
 	}
 	
-	private static class DBOpenHelper extends SQLiteOpenHelper{
+	public DBOpenHelper getDbHelper() {
+		return dbHelper;
+	}
+
+	public static class DBOpenHelper extends SQLiteOpenHelper{
 
 		/**
 		 * @param context
